@@ -104,28 +104,17 @@
         <ul id="messages-list" class="feed feed-wide"></ul>
       </section>
 
-      <!-- LOG DE EVENTOS -->
-      <section class="card col-full">
-        <div class="card-head">
-          <div>
-            <h2>Registro de eventos</h2>
-            <p class="card-sub">observabilidad en vivo</p>
-          </div>
-        </div>
-        <ul id="logs-list" class="logs"></ul>
-      </section>
-
     </div>
   </main>
 
 
 
-  <div id="identity-modal" hidden style="position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px">
+  <div id="identity-modal" hidden style="position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9999;display:none;align-items:center;justify-content:center;padding:20px">
     <form id="identity-form" style="width:min(460px,100%);background:var(--card,#fff);color:var(--ink,#1c2230);padding:24px;border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,.25)">
       <h2 style="margin:0 0 8px">Identidad del coordinador</h2>
       <p style="margin:0 0 16px;color:var(--mute,#667085)">Escribe el ID que quieres usar en el algoritmo Bully. No se genera automáticamente.</p>
       <label for="identity-id">ID del coordinador</label>
-      <input id="identity-id" type="text" maxlength="40" pattern="[A-Za-z0-9][A-Za-z0-9._-]{0,39}" placeholder="coordinator-camilo-55223042" autocomplete="off" required style="display:block;width:100%;margin:8px 0 12px">
+      <input id="identity-id" type="text" value="coordinator-" maxlength="40" pattern="[A-Za-z0-9][A-Za-z0-9._-]{0,39}" placeholder="coordinator-camilo-55223042" autocomplete="off" required style="display:block;width:100%;margin:8px 0 12px">
       <p id="identity-msg" style="margin:0 0 12px;color:#dc2626"></p>
       <button type="submit" class="btn btn-primary">Guardar ID</button>
     </form>

@@ -224,27 +224,6 @@ document.querySelector(".mfilter").parentElement.addEventListener("click", ev =>
   renderMessages()
 })
 
-// -------------------------------------------------------------------- logs
-
-let logBuffer = []
-
-function renderLogs() {
-  const ul = el("logs-list")
-  const list = logBuffer.slice(-100)
-
-  if (!list.length) {
-    ul.innerHTML = `<li class="empty">Sin eventos</li>`
-    return
-  }
-
-  ul.innerHTML = list.slice().reverse().map(l => `
-    <li class="log ${esc(l.level)}">
-      <span class="ts">${fmtTime(l.ts)}</span>
-      <span class="ev">${esc(l.event)}</span>
-      <span class="dt">${esc(JSON.stringify(l.data))}</span>
-    </li>`).join("")
-}
-
 // ------------------------------------------------------------- envío de msg
 
 // El nombre de quien envía se recuerda: es siempre el mismo y no tiene
@@ -377,20 +356,6 @@ async function saveIdentity(event) {
   }
 }
 
-el("me")?.addEventListener("click", async () => {
-  const info = await api("/node/identity")
-  const input = el("identity-id")
-  const modal = el("identity-modal")
-  const msg = el("identity-msg")
-  if (!modal || !input) return
-
-  input.value = info.id || ""
-  msg.textContent = ""
-  modal.hidden = false
-  modal.style.display = "flex"
-  setTimeout(() => input.focus(), 50)
-})
-
 el("identity-form")?.addEventListener("submit", saveIdentity)
 
 // ------------------------------------------------------------ tiempo real
@@ -409,9 +374,6 @@ function connectStream() {
     try { payload = JSON.parse(ev.data) } catch { return }
     if (payload.kind !== "log") return
 
-    logBuffer.push(payload)
-    if (logBuffer.length > 300) logBuffer.shift()
-    renderLogs()
     refresh()
   }
 
@@ -446,10 +408,6 @@ async function refresh() {
 async function init() {
   await loadIdentity()
   await refresh()
-  try {
-    logBuffer = await api("/logs?limit=200")
-    renderLogs()
-  } catch { /* el log se llenara con el stream */ }
   connectStream()
   setInterval(refresh, 3000)
 }

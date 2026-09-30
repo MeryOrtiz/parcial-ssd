@@ -1463,16 +1463,14 @@ app.get("/node/identity", (req, res) => {
 app.post("/node/identity", (req, res) => {
   const info = nodeIdentityInfo(req);
 
-  // El primer ID puede configurarse desde el panel local o desde el panel
-  // publicado por ngrok. Esto permite que cada participante configure su
-  // propio Coordinator entrando a su URL publica. Una vez configurado, los
-  // cambios de identidad quedan restringidos al panel local.
-  if (!info.local && info.id) {
+  // El ID solo se pide una vez, al iniciar el servidor. Una vez configurado
+  // no se puede cambiar; para usar otro ID hay que reiniciar el servidor.
+  if (info.id) {
     return res
       .status(403)
       .json({
         error:
-          "El ID ya esta configurado. Para cambiarlo, usa el panel en localhost de esta PC.",
+          "El ID ya esta configurado. Para cambiarlo, reinicia el servidor.",
       });
   }
 
